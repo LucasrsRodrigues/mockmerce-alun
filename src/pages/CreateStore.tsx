@@ -56,7 +56,7 @@ export default function CreateStore() {
           <CardDescription className="text-center">
             {created
               ? 'Guarde a API key abaixo — ela é mostrada uma única vez.'
-              : `Olá, ${student.name.split(' ')[0]}. Dê um nome à sua loja para começar. Depois você adiciona os colegas por RM nas configurações.`}
+              : `Olá, ${student.name?.split(' ')[0] || 'aluno'}. Dê um nome à sua loja para começar. Depois você adiciona os colegas por RM nas configurações.`}
           </CardDescription>
         </CardHeader>
         <CardContent>
