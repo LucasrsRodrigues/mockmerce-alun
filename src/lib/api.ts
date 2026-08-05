@@ -44,6 +44,8 @@ export const api = {
     login: (rm: string, password: string) => request<{ token: string; student: Student; mustChangePassword: boolean }>('POST', '/store/auth/login', { rm, password }),
     me: () => request<Student>('GET', '/store/auth/me'),
     changePassword: (currentPassword: string, newPassword: string) => request<{ ok: boolean }>('POST', '/store/auth/change-password', { currentPassword, newPassword }),
+    // Aluno sem loja cria a sua: retorna um TOKEN novo (já com o grupo) + a API key (1x).
+    createStore: (name: string) => request<{ token: string; groupId: string; name: string; apiKey: string }>('POST', '/store/groups', { name }),
   },
   products: {
     list: (p: Record<string, unknown> = {}) => request<Paginated<ProductSummary>>('GET', `/products${qs(p)}`),
@@ -102,7 +104,8 @@ export const api = {
 };
 
 // ---- Tipos ----
-export interface Student { rm: string; name: string; groupId: string; group: string; mustChangePassword: boolean }
+// groupId/group são null enquanto o aluno ainda não criou/entrou numa loja.
+export interface Student { rm: string; name: string; groupId: string | null; group: string | null; mustChangePassword: boolean }
 export interface Paginated<T> { data: T[]; page: number; pageSize: number; total: number }
 export interface NamedRef { id: string; name: string; slug?: string }
 export interface ProductVariant { id: string; sku: string; price: number; stock: number; minStock: number; isDefault: boolean; active: boolean; label: string | null; options: { option: string; value: string }[] }
