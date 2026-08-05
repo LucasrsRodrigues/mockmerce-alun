@@ -116,7 +116,7 @@ export interface Movement { type: string; quantity: number; warehouse: string; r
 export interface StoreOrderRow { id: string; status: string; total: number; customer: { name: string; email: string }; createdAt: string }
 export interface StoreOrder { id: string; status: string; total: number; customer: { id: string; name: string; email: string }; items: { productName: string; variantName: string | null; sku: string; quantity: number; unitPrice: number }[]; payment: { status: string; method: string } | null; timeline: { from: string | null; to: string; actor: string; rm: string | null; note: string | null; at: string }[]; internalComments: { rm: string | null; body: string; at: string }[] }
 export interface WebhookEndpoint { id: string; url: string; description: string | null; events: string[]; active: boolean }
-export interface ApiKeyRow { id: string; name: string; prefix: string; revoked: boolean; createdByRm: string | null; lastUsedAt: string | null; createdAt: string }
+export interface ApiKeyRow { id: string; name: string; prefix: string; revoked: boolean; createdByRm: string | null; lastUsedAt: string | null; createdAt: string; isPrimary?: boolean }
 export interface StoreSettings {
   locale: string; currency: string; timezone: string;
   storeName: string | null; storeDescription: string | null; logoUrl: string | null;

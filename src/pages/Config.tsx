@@ -99,6 +99,7 @@ function ApiKeyRowItem({ k, onRevoke }: { k: ApiKeyRow; onRevoke: () => void }) 
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2">
           <span className="truncate text-sm font-medium">{k.name}</span>
+          {k.isPrimary && <Badge variant="muted">principal</Badge>}
           {k.revoked && <Badge variant="muted">revogada</Badge>}
         </div>
         <div className="flex flex-wrap gap-x-3 text-xs text-muted-foreground">
@@ -107,7 +108,7 @@ function ApiKeyRowItem({ k, onRevoke }: { k: ApiKeyRow; onRevoke: () => void }) 
           {k.createdByRm && <span>por {k.createdByRm}</span>}
         </div>
       </div>
-      {!k.revoked && <Button size="icon" variant="ghost" onClick={onRevoke} title="Revogar"><Trash2 className="size-4" /></Button>}
+      {!k.revoked && !k.isPrimary && <Button size="icon" variant="ghost" onClick={onRevoke} title="Revogar"><Trash2 className="size-4" /></Button>}
     </div>
   );
 }
