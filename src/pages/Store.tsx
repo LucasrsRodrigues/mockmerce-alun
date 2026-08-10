@@ -122,12 +122,21 @@ function MembersCard() {
   const [name, setName] = useState('');
   const [adding, setAdding] = useState(false);
 
-  async function add() {
+  async function add(confirmMove = false) {
     if (!rm.trim() || !name.trim()) return toast.error('Informe RM e nome do aluno.');
     setAdding(true);
     try {
-      await api.members.add(rm.trim(), name.trim());
-      toast.success('Aluno adicionado ao grupo.');
+      const res = await api.members.add(rm.trim(), name.trim(), confirmMove);
+      if ('needsConfirmation' in res && res.needsConfirmation) {
+        const ok = confirm(
+          `${res.name} (${res.rm}) já pertence à loja "${res.currentGroup.name}".\n\n` +
+          `Mover para a sua loja? O aluno será desvinculado da loja atual. ` +
+          `O histórico que ele gerou (logs, XP e missões) permanece com a loja de origem.`,
+        );
+        if (ok) return add(true);
+        return; // migração cancelada
+      }
+      toast.success('moved' in res && res.moved ? 'Aluno movido para a sua loja.' : 'Aluno adicionado ao grupo.');
       setRm(''); setName('');
       reload();
     } catch (e: any) {
@@ -158,7 +167,7 @@ function MembersCard() {
         <div className="flex flex-col gap-2 sm:flex-row">
           <Input className="sm:w-40" placeholder="RM (ex.: RM550004)" value={rm} onChange={(e) => setRm(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && add()} />
           <Input className="flex-1" placeholder="Nome do aluno" value={name} onChange={(e) => setName(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && add()} />
-          <Button onClick={add} disabled={adding}>{adding ? <Loader2 className="size-4 animate-spin" /> : <UserPlus className="size-4" />} Adicionar</Button>
+          <Button onClick={() => add()} disabled={adding}>{adding ? <Loader2 className="size-4 animate-spin" /> : <UserPlus className="size-4" />} Adicionar</Button>
         </div>
 
         {loading && <Skeleton className="h-20 w-full" />}

@@ -87,7 +87,8 @@ export const api = {
   },
   members: {
     list: () => request<Member[]>('GET', '/store/members'),
-    add: (rm: string, name: string) => request<{ rm: string; name: string }>('POST', '/store/members', { rm, name }),
+    add: (rm: string, name: string, confirmMove = false) =>
+      request<MemberAddResult>('POST', '/store/members', { rm, name, confirmMove }),
     remove: (rm: string) => request<{ rm: string; removed: boolean }>('DELETE', `/store/members/${encodeURIComponent(rm)}`),
   },
   apiKeys: {
@@ -124,6 +125,11 @@ export interface StoreSettings {
   primaryColor: string | null; address: string | null; cnpj: string | null;
 }
 export interface Member { rm: string; name: string; jaAcessou: boolean; isYou: boolean; addedAt: string }
+// Resultado de members.add: ou o aluno foi adicionado/vinculado/movido (201),
+// ou ele já está em outra loja e o painel precisa confirmar a migração (200).
+export type MemberAddResult =
+  | { rm: string; name: string; moved?: boolean; needsConfirmation?: undefined }
+  | { needsConfirmation: true; rm: string; name: string; currentGroup: { id: string; name: string } };
 export interface TeachingDashboard {
   xp: number; nota: number;
   badges: { key: string; name: string; icon: string }[];
