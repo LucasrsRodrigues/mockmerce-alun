@@ -1,5 +1,5 @@
 import { NavLink, Outlet } from 'react-router-dom';
-import { LayoutDashboard, Package, Boxes, ShoppingCart, GraduationCap, Settings, Store, LogOut, ShoppingBag } from 'lucide-react';
+import { LayoutDashboard, Package, Boxes, ShoppingCart, GraduationCap, Settings, Store, LogOut, ShoppingBag, BookOpen, ExternalLink } from 'lucide-react';
 import { useAuth } from '@/lib/auth';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -19,12 +19,12 @@ export default function AppShell() {
 
   return (
     <div className="min-h-screen grid grid-cols-1 md:grid-cols-[240px_1fr] bg-muted/30">
-      {/* Sidebar */}
-      <aside className="hidden md:flex flex-col border-r bg-background">
-        <div className="flex h-14 items-center gap-2 border-b px-5 font-semibold">
+      {/* Sidebar — altura fixa (viewport), fica pinada ao rolar o conteúdo */}
+      <aside className="hidden md:flex flex-col border-r bg-background sticky top-0 h-screen">
+        <div className="flex h-14 shrink-0 items-center gap-2 border-b px-5 font-semibold">
           <Store className="size-5 text-primary" /> Loja FIAP
         </div>
-        <nav className="flex-1 space-y-1 p-3">
+        <nav className="flex-1 space-y-1 overflow-y-auto p-3">
           {NAV.map((item) => (
             <NavLink
               key={item.to}
@@ -39,7 +39,18 @@ export default function AppShell() {
             </NavLink>
           ))}
         </nav>
-        <div className="border-t p-3 text-xs text-muted-foreground">
+        <div className="shrink-0 border-t p-3">
+          <a
+            href="https://docs.mockmerce.com.br/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+          >
+            <BookOpen className="size-4" /> Documentação
+            <ExternalLink className="ml-auto size-3.5 opacity-60" />
+          </a>
+        </div>
+        <div className="shrink-0 border-t p-3 text-xs text-muted-foreground">
           <div className="font-medium text-foreground">{student?.group}</div>
           <div>{student?.name} · {student?.rm}</div>
         </div>
