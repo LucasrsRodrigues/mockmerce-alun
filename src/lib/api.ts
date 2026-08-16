@@ -100,6 +100,7 @@ export const api = {
     dashboard: () => request<TeachingDashboard>('GET', '/teaching/dashboard'),
     ranking: () => request<RankingRow[]>('GET', '/teaching/ranking'),
     submit: () => request<{ grade: number; missoesCumpridas: number }>('POST', '/teaching/submit'),
+    profile: () => request<StudentProfile>('GET', '/teaching/profile'),
   },
   reports: { sales: () => request<any>('GET', '/reports/sales') },
 };
@@ -138,3 +139,13 @@ export interface TeachingDashboard {
   proximosPassos: string[];
 }
 export interface RankingRow { posicao: number; grupo: string; xp: number }
+export type BadgeTier = 'BRONZE' | 'SILVER' | 'GOLD' | 'PLATINUM';
+export interface ProfileBadge {
+  key: string; name: string; icon: string; description: string; tier: BadgeTier;
+  earned: boolean; awardedAt: string | null;
+  progress: { current: number; target: number };
+}
+export interface StudentProfile {
+  rm: string; nome: string; xp: number; conquistadas: number; total: number;
+  badges: ProfileBadge[];
+}

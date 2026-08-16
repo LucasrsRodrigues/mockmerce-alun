@@ -1,5 +1,5 @@
 import { NavLink, Outlet } from 'react-router-dom';
-import { LayoutDashboard, Package, Boxes, ShoppingCart, GraduationCap, Settings, Store, LogOut, ShoppingBag, BookOpen, ExternalLink } from 'lucide-react';
+import { LayoutDashboard, Package, Boxes, ShoppingCart, GraduationCap, Award, Settings, Store, LogOut, ShoppingBag, BookOpen, ExternalLink } from 'lucide-react';
 import { useAuth } from '@/lib/auth';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -11,6 +11,7 @@ const NAV = [
   { to: '/pedidos', label: 'Pedidos', icon: ShoppingCart },
   { to: '/loja', label: 'Loja', icon: ShoppingBag },
   { to: '/ensino', label: 'Ensino', icon: GraduationCap },
+  { to: '/perfil', label: 'Perfil', icon: Award },
   { to: '/config', label: 'Configurações', icon: Settings },
 ];
 

@@ -11,6 +11,7 @@ import Inventory from '@/pages/Inventory';
 import Orders from '@/pages/Orders';
 import Store from '@/pages/Store';
 import Teaching from '@/pages/Teaching';
+import Profile from '@/pages/Profile';
 import Config from '@/pages/Config';
 
 function Protected({ children }: { children: React.ReactNode }) {
@@ -36,6 +37,7 @@ export default function App() {
         <Route path="pedidos" element={<Orders />} />
         <Route path="loja" element={<Store />} />
         <Route path="ensino" element={<Teaching />} />
+        <Route path="perfil" element={<Profile />} />
         <Route path="config" element={<Config />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
